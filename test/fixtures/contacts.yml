@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  telephone: MyString
+  street: MyString
+  postal: MyString
+  province: MyString
+  hrsmon: MyString
+  hrstue: MyString
+  hrswed: MyString
+  hrsthr: MyString
+  hrsfri: MyString
+
+two:
+  name: MyString
+  telephone: MyString
+  street: MyString
+  postal: MyString
+  province: MyString
+  hrsmon: MyString
+  hrstue: MyString
+  hrswed: MyString
+  hrsthr: MyString
+  hrsfri: MyString

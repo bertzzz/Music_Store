@@ -1,0 +1,130 @@
+<div class="keep-shopping mt4 ">
+<h2 class="title is-4">Order Id Number: <%= @order.first.id%> <%= @params %></h2>
+</div>
+
+<div class="keep-shopping pv1 mt4 has-text-right">
+  <%= link_to 'Back To Cart', cart_path(@cart) , class: 'button is-warning' %>
+  <%= link_to 'Keep Shopping', instruments_path, class: 'button is-warning' %>
+</div>
+<hr/ >
+<section class="section">
+    <table class="table is-bordered is-striped is-hoverable" style="width:70%">
+      <tr>
+        <th>Brand:</th>
+        <th>Title:</th>
+        <th>Qty:</th>
+        <th>Price:</th>
+      </tr>
+          <% @line_items.each do |item|%>
+              <tr>
+                <td><strong><%= item.instrument.brand %></strong></td>
+                <td><strong><%= item.instrument.title %></strong></td>
+                <td><%= item.quantity %></td>
+                <td><%= number_to_currency(item.total_price) %></td>
+              </tr>
+        <% end %>
+  </table>
+  <hr/ >
+    <div class="column is-8 has-text-left">
+        <h4>
+            <strong><span class="f5 has-text-grey">Total:</span> <%= number_to_currency(@cart.total_price * @tax) %></strong>
+        </h4>
+        <h4>
+            <strong><span class="f5 has-text-grey">PST:</span> <%= number_to_currency(@cart.total_price * 0.07) %></strong>
+        </h4>
+        <h4>
+            <strong><span class="f5 has-text-grey">GST:</span> <%= number_to_currency(@cart.total_price * 0.05) %></strong>
+        </h4>
+        <hr/ >
+        <h4>
+            <strong><span class="f5 has-text-grey">Grand Total:</span> <%= number_to_currency(@cart.total_price * @tax) %></strong>
+        </h4>
+</section>
+
+<div class="container">
+
+    <h2 class="title is-4">Shipping Details</h2>
+      <div class="columns">
+        <div class="column is-one-third">
+    <form action="/charges/new">
+            <div class="field">
+              <label class="label">Name: <%= current_user.name %></label>
+            </div>
+
+            <div class="field">
+              <label class="label">Street</label>
+              <div class="control">
+                <input class="input" name="street" type="text" placeholder= "123 Sesame Street" value= <%= current_user.street %>>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">City</label>
+              <div class="control">
+                <input class="input" name="city" type="text" placeholder= "Winnipeg" value=<%= current_user.city %>>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Postal Code</label>
+              <div class="control">
+                <input class="input" name="postal" type="text" placeholder= "A1A2B2" value=<%= current_user.postal %>>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Province</label>
+              <div class="control">
+                <div class="select">
+                  <select name="province">
+                    <option>MB</option>
+                    <option>PE</option>
+                    <option>NS</option>
+                    <option>NB</option>
+                    <option>QC</option>
+                    <option>ON</option>
+                    <option>SK</option>
+                    <option>AB</option>
+                    <option>BC</option>
+                    <option>YT</option>
+                    <option>NT</option>
+                    <option>NU</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Notes to MusiXstore.</label>
+              <div class="control">
+                <textarea name="notes" class="textarea" placeholder="Leave your comments here."></textarea>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input name="agree" type="checkbox">
+                  I agree to the <a href="#">terms and conditions</a>
+                </label>
+              </div>
+            </div>
+
+
+            <div class="field">
+              <label class="label">Grand Total</label>
+              <div class="control">
+                <input class="input" name="grandtotal" type="text" placeholder= "" value= <%= number_to_currency(@cart.total_price * @tax) %>>
+              </div>
+            </div>
+
+            <div class="field is-grouped">
+              <div class="control">
+               <%= button_to 'Pay Now', new_charge_path(<%= amount: @cart.total_price * @tax>), class: 'button add-to-cart' %>
+              </div>
+            </div>
+        </form>
+      </div>
+  </div>
+</div>
+

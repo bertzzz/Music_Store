@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Musicstore</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+ <body class="<%= yield (:body_class) %>">
+    <% if flash[:notice] %>
+      <div class="notification is-success global-notification">
+        <p class="notice"><%= notice %></p>
+      </div>
+    <% end %>
+    <% if flash[:alert] %>
+    <div class="notification is-danger global-notification">
+      <p class="alert"><%= alert %></p>
+    </div>
+    <% end %>
+
+    <nav class="navbar is-danger" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <%= link_to root_path, class:"navbar-item" do %>
+          <h1 class="title is-5">MusiXtore</h1>
+        <% end  %>
+    <div class="navbar-burger burger" data-target="navbar">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+      <div id="navbar" class="navbar-menu ">
+      <div class="navbar-start">
+        <%= link_to "About Us ", "/aboutpage", class:"navbar-item" %>
+        <%= link_to "Contact Us ", "/contact", class:"navbar-item" %>
+      </div>
+          <div class="navbar-end">
+
+ <div class="navbar-item">
+          <div id="search">
+            <%= form_with(url: search_results_instruments_path, method: "get", local: true) do %>
+              <%= label_tag(:query, "Search for:") %>
+              <%= text_field_tag(:query)%>
+          <%= select_tag("category", raw("<option>All</option><option>Guitars</option><option>Keyboards</option><option>Drums</option>")) %>
+              <%= submit_tag("Search") %>
+              <% end %>
+            </div>
+      </div>
+             <div class="navbar-item">
+                    <% if total_cart_items %>
+                        <%= link_to cart_path(@cart), class:"navbar-item button" do %>
+                        <span>Cart
+                          <%= cart_count_over_one %>
+                          </span>
+                        <% end %>
+                      <% end %>
+
+                      <% if user_signed_in? %>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                          <%= link_to 'Account', edit_user_registration_path, class: "navbar-link" %>
+                          <div class="navbar-dropdown is-right">
+                            <%= link_to current_user.name, edit_user_registration_path, class:"navbar-item" %>
+                            <%= link_to "Log Out", destroy_user_session_path, method: :delete, class:"navbar-item" %>
+                          </div>
+                        </div>
+                      <% else %>
+
+                      <%= link_to "Sign In", new_user_session_path, class:"navbar-item button is-warning" %>
+                      <%= link_to "Sign up", new_user_registration_path, class:"navbar-item button is-warning"%>
+                    <% end %>
+
+                </div>
+            </div>
+        </div>
+  </nav>
+
+  <%= yield(:header) %>
+
+  <div class="container">
+
+    <%= yield %>
+
+  </div>
+
+  </body>
+</html>

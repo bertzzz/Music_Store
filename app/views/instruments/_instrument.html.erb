@@ -1,0 +1,20 @@
+<div class="instrument border-light card">
+      <div class="instrument-thumb">
+      <% if instrument.image_url(:thumb)%>
+         <%= link_to image_tag(instrument.image_url(:thumb), alt: "No Image"), instrument %>
+      <% end %>
+      </div>
+
+      <% if instrument.condition? %>
+        <div class="condition">
+          <span class="tag is-dark"><%= instrument.condition %></span>
+        </div>
+      <% else %>
+        <br>
+      <% end %>
+
+    <div class="pa3">
+      <h3 class="fw7 f4 title"><%= link_to instrument.title, instrument %></h3>
+      <p class="f3 fw6 has-text-right pt2 price"><%= number_to_currency(instrument.price) %></p>
+    </div>
+</div>
